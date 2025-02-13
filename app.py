@@ -6,9 +6,13 @@ import os
 
 app = Flask(__name__)
 
-# 環境變數設定（Vercel 會從 Dashboard 設定這些變數）
-LINE_CHANNEL_ACCESS_TOKEN = os.getenv("x0/nMdJXcLnnzTuAWl9/ycB/OxX3Xit27KcGqLqL2+65+SADnpgdfkXljpN8YM19IO2aHN71koZXs+uA9TUDnenR4oq4CPCjB8qBRs+GB8A4bVsfyAypujqukiflcHbBA4eij6NAMvip0Kgzvro5VwdB04t89/1O/w1cDnyilFU=")
-LINE_CHANNEL_SECRET = os.getenv("9e858e8ace715a2e717f772558445bde")
+# 从环境变量中获取 Line Bot 的信息
+LINE_CHANNEL_ACCESS_TOKEN = os.getenv("LINE_CHANNEL_ACCESS_TOKEN")
+LINE_CHANNEL_SECRET = os.getenv("LINE_CHANNEL_SECRET")
+
+# 如果没有环境变量，抛出异常
+if not LINE_CHANNEL_ACCESS_TOKEN or not LINE_CHANNEL_SECRET:
+    raise ValueError("LINE_CHANNEL_ACCESS_TOKEN or LINE_CHANNEL_SECRET is missing!")
 
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 lhandler = WebhookHandler(LINE_CHANNEL_SECRET)
@@ -35,5 +39,5 @@ def handle_message(event):
     reply_message = f"你剛剛說: {user_message}"
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
 
-# Vercel 會自動執行 `index.py` 內的 `app`
-app.run()
+if __name__ == "__main__":
+    app.run()
