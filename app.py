@@ -21,23 +21,20 @@ lhandler = WebhookHandler(LINE_CHANNEL_SECRET)
 def home():
     return "Line Bot is running on Vercel!"
 
-@app.route("/callback", methods=["POST"])
-def callback():
-    signature = request.headers.get("X-Line-Signature")
-    body = request.get_data(as_text=True)
+# @app.route("/callback", methods=["POST"])
+# def callback():
+#     signature = request.headers.get("X-Line-Signature")
+#     body = request.get_data(as_text=True)
 
-    try:
-        lhandler.handle(body, signature)
-    except InvalidSignatureError:
-        abort(400)
+#     try:
+#         lhandler.handle(body, signature)
+#     except InvalidSignatureError:
+#         abort(400)
 
-    return "OK"
+#     return "OK"
 
-@lhandler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    user_message = event.message.text
-    reply_message = f"你剛剛說: {user_message}"
-    line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
-
-if __name__ == "__main__":
-    app.run()
+# @lhandler.add(MessageEvent, message=TextMessage)
+# def handle_message(event):
+#     user_message = event.message.text
+#     reply_message = f"你剛剛說: {user_message}"
+#     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
