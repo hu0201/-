@@ -36,5 +36,4 @@ def handle_message(event):
     line_bot_api.reply_message(event.reply_token, TextSendMessage(text=reply_message))
 
 # Vercel 會自動執行 `index.py` 內的 `app`
-if __name__ == "__main__":
-    app.run()
+app.run()
